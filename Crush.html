@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASMC Crush Ranker & Confessions</title>
+    <style>
+        :root {
+            --bg-color: #0b0711;
+            --card-bg: #191224;
+            --border-color: #2d2042;
+            --accent-purple: #9333ea;
+            --light-purple: #d8b4fe;
+            --text-main: #ffffff;
+            --text-muted: #e9d5ff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(147, 51, 234, 0.25);
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid var(--border-color);
+            box-sizing: border-box;
+        }
+
+        h2, h3 {
+            color: var(--light-purple);
+            text-align: center;
+            margin-top: 0;
+        }
+
+        p, li {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--light-purple);
+            margin-top: 15px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-color);
+            border: 1px solid #4c1d95;
+            border-radius: 8px;
+            color: var(--text-main);
+            box-sizing: border-box;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--light-purple);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #9333ea, #c084fc);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            opacity: 0.95;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #a78bfa;
+            font-style: italic;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- REPLACE THE action URL WITH YOUR FORMSPREE ENDPOINT -->
+        <form action="https://formspree.io/f/meaaprpy" method="POST" id="crushForm">
+
+            <!-- PAGE 1: Rules, Prizes, and Scope -->
+            <div class="step active" id="step-1">
+                <h2>ASMC CRUSH RANKER 🔥</h2>
+                <p>Welcome to campus hype! Before you dive in, keep these rules in mind:</p>
+                <ul>
+                    <li><strong>Anonymity:</strong> You can stay 100% anonymous, or reveal your identity for the lucky draw!</li>
+                    <li><strong>Prizes:</strong> Amazon Vouchers up for grabs for the Top Overall Diva, Hunk, and Lady Luck's Favourite.</li>
+                    <li><strong>Scope:</strong> Includes Batches (e.g., 21-26) and Faculty (Junior Residents, Senior Residents, Professors, Hospital Doctors).</li>
+                </ul>
+                <button type="button" onclick="nextStep(2)">Proceed to Vote 🚀</button>
+            </div>
+
+            <!-- PAGE 2: Are you a student or faculty? -->
+            <div class="step" id="step-2">
+                <h3>Who is submitting this?</h3>
+                <label for="user_role">Select your identity category:</label>
+                <select id="user_role" name="user_role" required>
+                    <option value="">-- Select --</option>
+                    <option value="Student">I am a Student</option>
+                    <option value="Faculty">I am Faculty / Resident / Doctor</option>
+                </select>
+                <button type="button" onclick="handleRoleSelection()">Next ➔</button>
+            </div>
+
+            <!-- PAGE 3A: STUDENT CONFESSING -->
+            <div class="step" id="step-3-student">
+                <h3>Student Submission</h3>
+                <label for="student_identity">Your Name & Batch (Optional - Leave blank to stay anonymous):</label>
+                <input type="text" id="student_identity" name="student_identity" placeholder="e.g., Aryan, Batch 20XX (For Lucky Draw)">
+                <div class="note">Revealing your name enters you into Lady Luck's Favourite lucky draw!</div>
+
+                <label>Who are you confessing to?</label>
+                <select id="student_target_type" name="student_target_type" onchange="updateStudentTargetFields()" required>
+                    <option value="">-- Select Target --</option>
+                    <option value="Student">A Student</option>
+                    <option value="Faculty">A Faculty / Resident / Doctor</option>
+                </select>
+
+                <div id="student-target-fields" style="display:none; margin-top: 15px;">
+                    <!-- Dynamically populated via JS -->
+                </div>
+            </div>
+
+            <!-- PAGE 3B: FACULTY CONFESSING -->
+            <div class="step" id="step-3-faculty">
+                <h3>Faculty / Resident Submission</h3>
+                <label for="faculty_my_details">Your Name, Designation & Department:</label>
+                <input type="text" id="faculty_my_details" name="faculty_my_details" placeholder="e.g., Dr. Smith, Senior Resident, Surgery">
+
+                <label>Who are you confessing to?</label>
+                <select id="faculty_target_type" name="faculty_target_type" onchange="updateFacultyTargetFields()" required>
+                    <option value="">-- Select Target --</option>
+                    <option value="Faculty">Faculty / Resident / Doctor</option>
+                    <option value="Student">A Student</option>
+                </select>
+
+                <div id="faculty-target-fields" style="display:none; margin-top: 15px;">
+                    <!-- Dynamically populated via JS -->
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        function nextStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            document.getElementById('step-' + stepNumber).classList.add('active');
+        }
+
+        function handleRoleSelection() {
+            const role = document.getElementById('user_role').value;
+            if (!role) {
+                alert('Please select whether you are a student or faculty.');
+                return;
+            }
+            if (role === 'Student') {
+                nextStep('3-student');
+            } else {
+                nextStep('3-faculty');
+            }
+        }
+
+        // Dynamic fields for Student confessions
+        function updateStudentTargetFields() {
+            const targetType = document.getElementById('student_target_type').value;
+            const container = document.getElementById('student-target-fields');
+            container.style.display = 'block';
+
+            if (targetType === 'Student') {
+                container.innerHTML = `
+                    <label for="s_crush_name">Crush's Name & Batch:</label>
+                    <input type="text" id="s_crush_name" name="target_name_batch" required placeholder="e.g., Rahul, Batch 20XX">
+
+                    <label for="s_reason">What do you like about them?:</label>
+                    <textarea id="s_reason" name="reason" rows="4" required placeholder="Drop the hype/compliment..."></textarea>
+
+                    <button type="submit">Submit Confession 🔥</button>
+                `;
+            } else if (targetType === 'Faculty') {
+                container.innerHTML = `
+                    <label for="s_faculty_name">Faculty Name, Designation & Department:</label>
+                    <input type="text" id="s_faculty_name" name="target_faculty_details" required placeholder="e.g., Dr. Sharma, Professor, Medicine">
+
+                    <label for="s_faculty_reason">What do you like about them?:</label>
+                    <textarea id="s_faculty_reason" name="reason" rows="4" required placeholder="Drop the hype/compliment..."></textarea>
+
+                    <button type="submit">Submit Confession 🔥</button>
+                `;
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        // Dynamic fields for Faculty confessions
+        function updateFacultyTargetFields() {
+            const targetType = document.getElementById('faculty_target_type').value;
+            const container = document.getElementById('faculty-target-fields');
+            container.style.display = 'block';
+
+            if (targetType === 'Faculty') {
+                container.innerHTML = `
+                    <label for="f_target_details">Crush's Name, Designation & Department:</label>
+                    <input type="text" id="f_target_details" name="target_faculty_details" required placeholder="e.g., Dr. Jane, Junior Resident, Pediatrics">
+
+                    <label for="f_reason_1">What do you like about them?:</label>
+                    <textarea id="f_reason_1" name="reason" rows="4" required placeholder="Drop the hype/compliment..."></textarea>
+
+                    <button type="submit">Submit Confession 🔥</button>
+                `;
+            } else if (targetType === 'Student') {
+                container.innerHTML = `
+                    <label for="f_student_details">Crush's Name & Batch:</label>
+                    <input type="text" id="f_student_details" name="target_name_batch" required placeholder="e.g., Priya, Batch 20XX">
+
+                    <label for="f_reason_2">What do you like about them?:</label>
+                    <textarea id="f_reason_2" name="reason" rows="4" required placeholder="Drop the hwnd/compliment..."></textarea>
+
+                    <button type="submit">Submit Confession 🔥</button>
+                `;
+            } else {
+                container.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
